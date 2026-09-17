@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+### Fixed
+- A host can load the script React comes on without naming keystone_ui-react itself, because this gem now brings that gem's engine with it. Before, a page asking for that script was refused, since nothing had told the host where it lives.
+
 ## [0.2.1] - 2026-09-17
 
 ### Fixed
