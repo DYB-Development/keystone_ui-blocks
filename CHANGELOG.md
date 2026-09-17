@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+### Added
+- A block type can carry the width and height it renders at on a screen narrower than 640 pixels, and a drawn layout uses that size there. A type registered without one takes the full width on a narrow screen, as before, and blocks are still drawn one after another in the order they were saved.
+
 ## [0.1.0] - 2026-09-16
 
 ### Added
