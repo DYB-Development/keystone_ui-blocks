@@ -47,6 +47,14 @@ class KsBlocksTest < ActiveSupport::TestCase
     assert_equal [ { key: :title, label: "Title" } ], KsBlocks.registry.block_types(kind: :fields_probe).first.fields
   end
 
+  test "a block type carries the size it renders at on a narrow screen" do
+    KsBlocks.block(:narrow_probe, name: "Narrow", width: 6, height: 4, kind: :narrow_probe, narrow_width: 12, narrow_height: 2)
+
+    narrow = KsBlocks.registry.block_types(kind: :narrow_probe).first
+
+    assert_equal [ 12, 2 ], [ narrow.narrow_width, narrow.narrow_height ]
+  end
+
   test "a block type carries the sizes it may be resized between" do
     KsBlocks.block(:limited_probe, name: "Limited", width: 6, height: 2, kind: :limits_probe, min_width: 3, max_width: 9, min_height: 1, max_height: 4)
 
