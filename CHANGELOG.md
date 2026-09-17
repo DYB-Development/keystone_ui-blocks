@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+### Added
+- A host record can offer fewer block types than its kind registers, so what a designer may add depends on the record rather than on one setting made when the application starts. A block already on the layout keeps its type's limits whether or not its type is still offered, and a record that says nothing offers every type as before.
+
 ## [0.2.2] - 2026-09-17
 
 ### Fixed

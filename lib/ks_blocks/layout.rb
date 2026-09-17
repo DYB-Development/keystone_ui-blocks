@@ -30,8 +30,10 @@ module KsBlocks
 
         define_method(:block_layout_types) { KsBlocks.registry.block_types(kind: block_layout_kind) }
 
+        define_method(:block_layout_offered) { block_layout_types }
+
         define_method(:layout_data) do
-          KsBlocks.layout_data(public_send(column), kind: block_layout_kind, grid: { columns: columns, row_height: row_height, gap: gap })
+          KsBlocks.layout_data(public_send(column), kind: block_layout_kind, grid: { columns: columns, row_height: row_height, gap: gap }, offered: block_layout_offered)
         end
       end
     end

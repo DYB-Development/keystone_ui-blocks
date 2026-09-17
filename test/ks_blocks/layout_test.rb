@@ -21,6 +21,16 @@ module KsBlocks
       block_layout :blocks, kind: ->(record) { record.name.to_sym }
     end
 
+    class OfferingHost < ActiveRecord::Base
+      self.table_name = "hosts"
+      include KsBlocks::Layout
+      block_layout :blocks, kind: :offering
+
+      def block_layout_offered
+        block_layout_types.select { |block_type| block_type.key == :offered_one }
+      end
+    end
+
     TEXT = BlockType.new(key: :text, name: "Text", width: 6, height: 2)
 
     test "a host record saves a block added to its layout column" do
@@ -116,6 +126,13 @@ module KsBlocks
       host.add_block(fixed, x: 0, y: 0)
 
       assert_raises(InvalidLayout) { host.remove_block(host.blocks.first["id"]) }
+    end
+    test "a host record can offer only some of the types registered for its kind" do
+      KsBlocks.block(:offered_one, name: "Offered", width: 6, height: 2, kind: :offering)
+      KsBlocks.block(:offered_two, name: "Held back", width: 6, height: 2, kind: :offering)
+      host = OfferingHost.create!(name: "Offering")
+
+      assert_equal [ :offered_one ], host.layout_data[:block_types].map { |block_type| block_type[:key] }
     end
   end
 end

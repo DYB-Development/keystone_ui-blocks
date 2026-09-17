@@ -38,6 +38,20 @@ KsBlocks.block(:revenue, name: "Revenue", width: 6, height: 4, kind: :dashboards
 A type registered without one takes the full width on a narrow screen. Only one
 layout is ever saved or arranged.
 
+## What one record offers
+
+A record offers every type registered for its kind. A record that offers fewer
+says which:
+
+```ruby
+def block_layout_offered
+  block_layout_types.select { |block_type| sources.include?(block_type.key) }
+end
+```
+
+The list beside the grid shows only those, and a block already on the layout
+keeps its type's limits whether or not its type is still offered.
+
 ## A layout on a host's record
 
 A host keeps the layout in a column of its own and says which kind of layout it
