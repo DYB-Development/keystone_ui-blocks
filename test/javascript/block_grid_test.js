@@ -131,3 +131,11 @@ test("shows no handle on a block of a fixed type, which nobody can move", () => 
 
   assert.doesNotMatch(render({ block_types: [ masthead ], blocks: [ block ] }), /data-block-handle/)
 })
+
+test("keeps a block's limits when its type is no longer offered", () => {
+  const fixed = { key: "retired", name: "Retired", width: 6, height: 2, fixed: true }
+  const block = { id: "b1", type: "retired", x: 0, y: 0, w: 6, h: 2 }
+  const markup = render({ block_types: [ HEADING ], limits: [ HEADING, fixed ], blocks: [ block ] })
+
+  assert.doesNotMatch(markup, /data-block-handle/)
+})

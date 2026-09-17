@@ -57,9 +57,10 @@ const usedUp = (blockType, blocks) => blockType.once && blocks.some((block) => b
 export default function BlockGrid({ base, token, emptyMessage, ...initial }) {
   const { layout: current, error, send } = useLayout(base, token, initial)
   const { block_types = [], blocks = [], grid = {}, contents = {} } = current
+  const limits = current.limits ?? block_types
   const { columns, row_height: rowHeight, gap } = { ...SHAPE, ...grid }
   const { width, containerRef, mounted } = useContainerWidth({ measureBeforeMount: true })
-  const layout = gridItems(blocks, block_types)
+  const layout = gridItems(blocks, limits)
   const dragged = useRef(null)
   const [ search, setSearch ] = useState("")
   const [ selected, setSelected ] = useState(null)
@@ -122,9 +123,9 @@ export default function BlockGrid({ base, token, emptyMessage, ...initial }) {
           <GridLayout width={width} layout={layout} gridConfig={{ cols: columns, rowHeight, margin: [ gap, gap ] }} resizeConfig={{ enabled: true, handles: RESIZE_HANDLES }} dragConfig={{ handle: "[data-block-handle]", cancel: "[data-remove-block]" }} dropConfig={dropConfig} onDrop={dropped} onDragStop={(placed) => placeBlocks(send, placed)} onResizeStop={(placed) => placeBlocks(send, placed)}>
             {blocks.map((block) => (
               <div key={block.id} data-block={block.id} onClick={() => setSelected(block.id)} className="ks-panel p-3 flex items-start justify-between gap-2">
-                {!typeOf(block_types, block.type)?.fixed && <span data-block-handle className="ks-block-handle" aria-hidden="true">⠿</span>}
-                <BlockContent id={block.id} name={named(block_types, block.type)} html={contents[block.id]} />
-                {!typeOf(block_types, block.type)?.fixed && <Button variant="secondary" size="sm" type="button" data-remove-block onClick={() => removeBlock(send, block.id)}>Remove</Button>}
+                {!typeOf(limits, block.type)?.fixed && <span data-block-handle className="ks-block-handle" aria-hidden="true">⠿</span>}
+                <BlockContent id={block.id} name={named(limits, block.type)} html={contents[block.id]} />
+                {!typeOf(limits, block.type)?.fixed && <Button variant="secondary" size="sm" type="button" data-remove-block onClick={() => removeBlock(send, block.id)}>Remove</Button>}
               </div>
             ))}
           </GridLayout>
