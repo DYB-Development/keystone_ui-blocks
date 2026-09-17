@@ -27,6 +27,17 @@ KsBlocks.block(:text, name: "Text", width: 6, height: 2, kind: :pages)
 The width and height are in grid cells, and are the size a block of that type
 starts at.
 
+A type can also carry the size it renders at on a screen narrower than 640
+pixels, where blocks are drawn one after another in the order they were saved:
+
+```ruby
+KsBlocks.block(:revenue, name: "Revenue", width: 6, height: 4, kind: :dashboards,
+               narrow_width: 12, narrow_height: 2)
+```
+
+A type registered without one takes the full width on a narrow screen. Only one
+layout is ever saved or arranged.
+
 ## Putting the grid on a screen
 
 The grid is a React interface, installed as an npm package from this

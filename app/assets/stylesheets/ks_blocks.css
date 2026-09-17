@@ -4,12 +4,14 @@
   gap: var(--ks-blocks-gap, 10px);
 }
 
-@media (max-width: 640px) {
-  .ks-blocks-layout {
-    display: block;
-  }
+.ks-blocks-layout > * {
+  grid-column: calc(var(--ks-block-x) + 1) / span var(--ks-block-w);
+  grid-row: calc(var(--ks-block-y) + 1) / span var(--ks-block-h);
+}
 
-  .ks-blocks-layout > * + * {
-    margin-top: var(--ks-blocks-gap, 10px);
+@media (max-width: 640px) {
+  .ks-blocks-layout > * {
+    grid-column: span var(--ks-block-narrow-w, var(--ks-blocks-columns, 12));
+    grid-row: span var(--ks-block-narrow-h, 1);
   }
 }

@@ -10,7 +10,16 @@ module KsBlocks
 
       rendered = block_layout(blocks, columns: 12) { |block| block["id"] }
 
-      assert_match(/grid-column: ?4 ?\/ ?span 4; ?grid-row: ?3 ?\/ ?span 2/, rendered)
+      assert_match(/--ks-block-x: ?3; ?--ks-block-y: ?2; ?--ks-block-w: ?4; ?--ks-block-h: ?2/, rendered)
+    end
+
+    test "a block carries the size its type renders at on a narrow screen" do
+      KsBlocks.block(:narrow_shown, name: "Narrow", width: 6, height: 4, kind: :narrow_shown, narrow_width: 12, narrow_height: 2)
+      blocks = [ { "id" => "b1", "type" => "narrow_shown", "x" => 0, "y" => 0, "w" => 6, "h" => 4 } ]
+
+      rendered = block_layout(blocks, columns: 12, kind: :narrow_shown) { |block| block["id"] }
+
+      assert_match(/--ks-block-narrow-w: ?12; ?--ks-block-narrow-h: ?2/, rendered)
     end
 
     test "blocks come out in reading order, across the grid and then down" do
