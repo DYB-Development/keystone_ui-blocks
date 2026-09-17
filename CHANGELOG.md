@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-09-16
+
 ### Added
 - A registry a host app or gem declares its block types with, each carrying the key it is saved under, the name a designer picks it by, and the width and height in grid cells a block of it starts at.
 - A grid that adds a block at a place or the first open one, moves and resizes blocks, fills in a block's content and removes it, refusing with a message naming the block whenever a change would overlap another block, run past the last column, break the sizes its type may be resized between, move or remove a block of a fixed type, or use a type registered for one use twice.
