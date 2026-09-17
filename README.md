@@ -27,6 +27,21 @@ KsBlocks.block(:text, name: "Text", width: 6, height: 2, kind: :pages)
 The width and height are in grid cells, and are the size a block of that type
 starts at.
 
+## Putting the grid on a screen
+
+The grid is a React interface, installed as an npm package from this
+repository's release tag alongside the gem:
+
+```json
+"dependencies": {
+  "keystone_ui-blocks": "https://github.com/DYB-Development/keystone_ui-blocks/archive/refs/tags/v0.1.0.tar.gz"
+}
+```
+
+An engine registers it as a React UI and draws it on a screen of its own, the
+way [keystone_ui-react](https://github.com/DYB-Development/keystone_ui-react)
+mounts any React UI.
+
 ## Development
 
 ```bash

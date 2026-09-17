@@ -1,0 +1,27 @@
+{
+  "name": "keystone_ui-blocks",
+  "version": "0.1.0",
+  "description": "A drag-and-drop block grid for Rails engine gems, following keystone_ui's design",
+  "type": "module",
+  "files": [ "src" ],
+  "scripts": {
+    "test": "node --import ./test/javascript/support/jsx.js --test \"test/javascript/**/*_test.js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DYB-Development/keystone_ui-blocks.git"
+  },
+  "dependencies": {
+    "keystone_ui-react": "https://github.com/DYB-Development/keystone_ui-react/archive/refs/tags/v0.1.2.tar.gz",
+    "react-grid-layout": "2.2.4"
+  },
+  "peerDependencies": {
+    "react": ">=19"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "license": "MIT"
+}
