@@ -1,0 +1,15 @@
+.ks-blocks-layout {
+  display: grid;
+  grid-template-columns: repeat(var(--ks-blocks-columns, 12), minmax(0, 1fr));
+  gap: var(--ks-blocks-gap, 10px);
+}
+
+@media (max-width: 640px) {
+  .ks-blocks-layout {
+    display: block;
+  }
+
+  .ks-blocks-layout > * + * {
+    margin-top: var(--ks-blocks-gap, 10px);
+  }
+}
