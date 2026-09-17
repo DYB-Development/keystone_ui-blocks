@@ -124,3 +124,10 @@ test("gives each block a handle to drag it by", () => {
 
   assert.match(markup, /<div[^>]*data-block="b1"[^>]*>.*data-block-handle/)
 })
+
+test("shows no handle on a block of a fixed type, which nobody can move", () => {
+  const masthead = { key: "masthead", name: "Masthead", width: 12, height: 1, fixed: true }
+  const block = { id: "b1", type: "masthead", x: 0, y: 0, w: 12, h: 1 }
+
+  assert.doesNotMatch(render({ block_types: [ masthead ], blocks: [ block ] }), /data-block-handle/)
+})
