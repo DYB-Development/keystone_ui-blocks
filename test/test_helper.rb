@@ -4,6 +4,8 @@ require "minitest/autorun"
 require "active_support"
 require "active_support/test_case"
 require "active_record"
+require "action_view"
+require "action_view/test_case"
 require_relative "../lib/ks_blocks"
 
 ActiveRecord::Base.establish_connection(adapter: "sqlite3", database: ":memory:")
