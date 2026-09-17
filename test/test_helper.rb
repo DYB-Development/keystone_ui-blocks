@@ -1,10 +1,22 @@
 # frozen_string_literal: true
 
+ENV["RAILS_ENV"] = "test"
+
 require "minitest/autorun"
-require "active_support"
-require "active_support/test_case"
 require "active_record"
-require "action_view"
+require "action_controller/railtie"
+require "action_view/railtie"
+
+class TestApp < Rails::Application
+  config.root = File.expand_path("..", __dir__)
+  config.eager_load = false
+  config.secret_key_base = "keystone_ui_blocks_test"
+  config.logger = Logger.new(IO::NULL)
+end
+
+TestApp.initialize!
+
+require "rails/test_help"
 require "action_view/test_case"
 require_relative "../lib/ks_blocks"
 
