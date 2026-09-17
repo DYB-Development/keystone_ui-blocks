@@ -15,7 +15,7 @@ module KsBlocks
         define_method(:place_blocks) do |positions, version: nil|
           raise InvalidLayout, "This layout changed since it was last drawn" if version && version != KsBlocks.version_of(public_send(column))
 
-          update!(column => Grid.place(public_send(column), positions, columns: columns, types: KsBlocks.registry.block_types(kind: kind)))
+          update!(column => Grid.place(public_send(column), positions, columns: columns, types: block_layout_types))
         end
 
         define_method(:fill_block) do |id, content|
@@ -23,13 +23,15 @@ module KsBlocks
         end
 
         define_method(:remove_block) do |id|
-          update!(column => Grid.remove(public_send(column), id, types: KsBlocks.registry.block_types(kind: kind)))
+          update!(column => Grid.remove(public_send(column), id, types: block_layout_types))
         end
 
-        define_method(:block_layout_kind) { kind }
+        define_method(:block_layout_kind) { kind.respond_to?(:call) ? kind.call(self) : kind }
+
+        define_method(:block_layout_types) { KsBlocks.registry.block_types(kind: block_layout_kind) }
 
         define_method(:layout_data) do
-          KsBlocks.layout_data(public_send(column), kind: kind, grid: { columns: columns, row_height: row_height, gap: gap })
+          KsBlocks.layout_data(public_send(column), kind: block_layout_kind, grid: { columns: columns, row_height: row_height, gap: gap })
         end
       end
     end

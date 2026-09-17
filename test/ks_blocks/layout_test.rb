@@ -15,6 +15,12 @@ module KsBlocks
       block_layout :blocks, columns: 6, row_height: 40, gap: 4
     end
 
+    class ManyKindsHost < ActiveRecord::Base
+      self.table_name = "hosts"
+      include KsBlocks::Layout
+      block_layout :blocks, kind: ->(record) { record.name.to_sym }
+    end
+
     TEXT = BlockType.new(key: :text, name: "Text", width: 6, height: 2)
 
     test "a host record saves a block added to its layout column" do
@@ -103,6 +109,13 @@ module KsBlocks
       host.add_block(limited, x: 0, y: 0)
 
       assert_raises(InvalidLayout) { host.place_blocks([ { "id" => host.blocks.first["id"], "x" => 0, "y" => 0, "w" => 3, "h" => 2 } ]) }
+    end
+    test "a host record whose kind comes from itself refuses a change its own kind forbids" do
+      fixed = KsBlocks.block(:masthead, name: "Masthead", width: 12, height: 1, kind: :a_kind_of_its_own, fixed: true)
+      host = ManyKindsHost.create!(name: "a_kind_of_its_own")
+      host.add_block(fixed, x: 0, y: 0)
+
+      assert_raises(InvalidLayout) { host.remove_block(host.blocks.first["id"]) }
     end
   end
 end

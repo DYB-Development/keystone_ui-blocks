@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+### Added
+- A host record can work out which kind of layout it keeps from itself, so one model can hold layouts of different kinds, and every limit a block type sets is enforced against that record's own kind.
+
 ## [0.2.0] - 2026-09-17
 
 ### Changed

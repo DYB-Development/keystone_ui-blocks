@@ -38,6 +38,25 @@ KsBlocks.block(:revenue, name: "Revenue", width: 6, height: 4, kind: :dashboards
 A type registered without one takes the full width on a narrow screen. Only one
 layout is ever saved or arranged.
 
+## A layout on a host's record
+
+A host keeps the layout in a column of its own and says which kind of layout it
+is:
+
+```ruby
+class Page < ApplicationRecord
+  include KsBlocks::Layout
+
+  block_layout :blocks, kind: :pages
+end
+```
+
+A record whose kind varies row by row gives something to work it out with:
+
+```ruby
+block_layout :blocks, kind: ->(record) { record.dashboard_type.to_sym }
+```
+
 ## Putting the grid on a screen
 
 The grid is a React interface, installed as an npm package from this
