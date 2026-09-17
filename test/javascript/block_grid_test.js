@@ -49,7 +49,7 @@ test("sets the grid in a keystone panel", () => {
 })
 
 test("draws each block on the grid by its type's name", () => {
-  assert.match(render({ block_types: [ HEADING ], blocks: [ BLOCK ] }), /<[^>]*data-block="b1"[^>]*>[^<]*Heading/)
+  assert.match(render({ block_types: [ HEADING ], blocks: [ BLOCK ] }), /<[^>]*data-block="b1"[^>]*>.*Heading/)
 })
 
 test("draws each block on the grid as a padded keystone panel", () => {
@@ -77,7 +77,7 @@ test("offers a Remove button on each block", () => {
 test("marks a block whose type is no longer registered as an unknown type", () => {
   const markup = render({ block_types: [ HEADING ], blocks: [ { id: "b9", type: "retired_widget", x: 0, y: 0, w: 6, h: 2 } ] })
 
-  assert.match(markup, /<div[^>]*data-block="b9"[^>]*>Unknown block type \(retired_widget\)/)
+  assert.match(markup, /<div[^>]*data-block="b9"[^>]*>.*Unknown block type \(retired_widget\)/)
 })
 
 test("draws the grid with the shape it is given", () => {
@@ -117,4 +117,10 @@ test("shows block types under the name of the group they were put in", () => {
   const notice = { key: "notice", name: "Notice", width: 12, height: 1, group: "Layout" }
 
   assert.match(render({ block_types: [ notice ] }), /Layout<\/h3>.*data-block-type="notice"/)
+})
+
+test("gives each block a handle to drag it by", () => {
+  const markup = render({ block_types: [ HEADING ], blocks: [ BLOCK ] })
+
+  assert.match(markup, /<div[^>]*data-block="b1"[^>]*>.*data-block-handle/)
 })
