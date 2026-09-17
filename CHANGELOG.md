@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+### Changed
+- A block is moved by a handle it now carries rather than by dragging anywhere on it, so on a touchscreen a finger anywhere else on a block scrolls the screen instead of moving the block.
+
 ### Added
 - A block type can carry the width and height it renders at on a screen narrower than 640 pixels, and a drawn layout uses that size there. A type registered without one takes the full width on a narrow screen, as before, and blocks are still drawn one after another in the order they were saved.
 

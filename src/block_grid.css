@@ -3,3 +3,18 @@
     opacity: 1;
   }
 }
+
+[data-block-handle] {
+  cursor: grab;
+  touch-action: none;
+  line-height: 1;
+  user-select: none;
+}
+
+[data-block-handle]:active {
+  cursor: grabbing;
+}
+
+[data-block] {
+  touch-action: pan-y;
+}
