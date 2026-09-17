@@ -1,9 +1,11 @@
 {
   "name": "keystone_ui-blocks",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A drag-and-drop block grid for Rails engine gems, following keystone_ui's design",
   "type": "module",
-  "files": [ "src" ],
+  "files": [
+    "src"
+  ],
   "scripts": {
     "test": "node --import ./test/javascript/support/jsx.js --test \"test/javascript/**/*_test.js\""
   },
