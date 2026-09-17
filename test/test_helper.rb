@@ -18,7 +18,7 @@ TestApp.initialize!
 
 require "rails/test_help"
 require "action_view/test_case"
-require_relative "../lib/ks_blocks"
+require_relative "../lib/keystone_ui-blocks"
 
 ActiveRecord::Base.establish_connection(adapter: "sqlite3", database: ":memory:")
 
