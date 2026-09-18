@@ -7,7 +7,7 @@ import { Label } from "keystone_ui-react/src/FieldText.jsx"
 import Panel from "keystone_ui-react/src/Panel.jsx"
 import Section from "keystone_ui-react/src/Section.jsx"
 import useLayout from "./useLayout"
-import { chooseBlock, dropBlock, fillBlock, gridItems, placeBlocks, removeBlock } from "./blocks"
+import { allowances, chooseBlock, dropBlock, fillBlock, gridItems, placeBlocks, removeBlock } from "./blocks"
 import { holdToStart } from "./hold"
 import { dragStopped } from "./remove_target"
 
@@ -98,7 +98,7 @@ export default function BlockGrid({ base, token, emptyMessage, editing: startsEd
       item,
       pointer: event,
       target: removeTargetRef.current?.getBoundingClientRect(),
-      fixed: typeOf(limits, blocks.find((block) => block.id === item.i)?.type)?.fixed
+      fixed: !allowances(blocks.find((block) => block.id === item.i) ?? {}, limits).removed
     })
 
     stopped.remove ? removeBlock(send, stopped.remove) : placeBlocks(send, stopped.place)
