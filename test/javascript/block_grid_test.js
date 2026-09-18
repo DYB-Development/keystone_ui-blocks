@@ -10,30 +10,34 @@ const BLOCK = { id: "b1", type: "heading", x: 0, y: 0, w: 12, h: 1 }
 const render = (props) => renderToStaticMarkup(React.createElement(BlockGrid, { base: "/pages/1", block_types: [], blocks: [], ...props }))
 const opening = (markup, attribute) => markup.match(new RegExp(`<[^>]*${attribute}[^>]*>`))?.[0] ?? ""
 
+test("shows no block list while edit mode is off", () => {
+  assert.doesNotMatch(render({ block_types: [ HEADING ], blocks: [ BLOCK ] }), /Blocks<\/h2>/)
+})
+
 test("lists the block types in their own keystone section titled Blocks", () => {
-  assert.match(render({ block_types: [ HEADING ] }), /<h2 class="ks-section-title">Blocks<\/h2>.*<ul[^>]*><li[^>]*data-block-type="heading"/)
+  assert.match(render({ editing: true, block_types: [ HEADING ] }), /<h2 class="ks-section-title">Blocks<\/h2>.*<ul[^>]*><li[^>]*data-block-type="heading"/)
 })
 
 test("lists exactly the block types it is given, by name", () => {
-  const markup = render({ block_types: [ HEADING, { key: "text", name: "Text", width: 6, height: 2 } ] })
+  const markup = render({ editing: true, block_types: [ HEADING, { key: "text", name: "Text", width: 6, height: 2 } ] })
 
   assert.deepEqual([ ...markup.matchAll(/<[^>]*data-block-type[^>]*><span>([^<]*)</g) ].map((found) => found[1]), [ "Heading", "Text" ])
 })
 
 test("says there are no blocks to add when it is given no block types", () => {
-  assert.match(render({}), /There are no blocks to add/)
+  assert.match(render({ editing: true }), /There are no blocks to add/)
 })
 
 test("offers an Add button beside each block type", () => {
-  assert.match(render({ block_types: [ HEADING ] }), /<li[^>]*data-block-type="heading"[^>]*>.*<button[^>]*>Add<\/button>.*<\/li>/)
+  assert.match(render({ editing: true, block_types: [ HEADING ] }), /<li[^>]*data-block-type="heading"[^>]*>.*<button[^>]*>Add<\/button>.*<\/li>/)
 })
 
 test("spaces each block type's name apart from its Add button", () => {
-  assert.match(opening(render({ block_types: [ HEADING ] }), 'data-block-type="heading"'), /class="[^"]*\bjustify-between\b[^"]*\bgap-2\b/)
+  assert.match(opening(render({ editing: true, block_types: [ HEADING ] }), 'data-block-type="heading"'), /class="[^"]*\bjustify-between\b[^"]*\bgap-2\b/)
 })
 
 test("lets each block type be dragged", () => {
-  assert.match(opening(render({ block_types: [ HEADING ] }), 'data-block-type="heading"'), /draggable="true"/)
+  assert.match(opening(render({ editing: true, block_types: [ HEADING ] }), 'data-block-type="heading"'), /draggable="true"/)
 })
 
 test("shows the message it is given while there are no blocks", () => {
@@ -49,11 +53,11 @@ test("sets the grid in a keystone panel", () => {
 })
 
 test("draws each block on the grid by its type's name", () => {
-  assert.match(render({ block_types: [ HEADING ], blocks: [ BLOCK ] }), /<[^>]*data-block="b1"[^>]*>.*Heading/)
+  assert.match(render({ editing: true, block_types: [ HEADING ], blocks: [ BLOCK ] }), /<[^>]*data-block="b1"[^>]*>.*Heading/)
 })
 
 test("draws each block on the grid as a padded keystone panel", () => {
-  assert.match(opening(render({ block_types: [ HEADING ], blocks: [ BLOCK ] }), 'data-block="b1"'), /class="[^"]*ks-panel p-3/)
+  assert.match(opening(render({ editing: true, block_types: [ HEADING ], blocks: [ BLOCK ] }), 'data-block="b1"'), /class="[^"]*ks-panel p-3/)
 })
 
 test("keeps blocks inside the grid so the page never scrolls sideways", () => {
@@ -65,13 +69,13 @@ test("keeps the grid hidden until it has measured its container", () => {
 })
 
 test("lets each block be resized from its right edge, bottom edge and corner", () => {
-  const markup = render({ block_types: [ HEADING ], blocks: [ BLOCK ] })
+  const markup = render({ editing: true, block_types: [ HEADING ], blocks: [ BLOCK ] })
 
   assert.deepEqual([ ...markup.matchAll(/react-resizable-handle-(\w+)/g) ].map((found) => found[1]).sort(), [ "e", "s", "se" ])
 })
 
 test("offers a Remove button on each block", () => {
-  assert.match(render({ block_types: [ HEADING ], blocks: [ BLOCK ] }), /<div[^>]*data-block="b1"[^>]*>.*<button[^>]*>Remove<\/button>/)
+  assert.match(render({ editing: true, block_types: [ HEADING ], blocks: [ BLOCK ] }), /<div[^>]*data-block="b1"[^>]*>.*<button[^>]*>Remove<\/button>/)
 })
 
 test("marks a block whose type is no longer registered as an unknown type", () => {
@@ -97,30 +101,30 @@ test("says a type that may be used once is already added once it is on the layou
   const notice = { key: "notice", name: "Notice", width: 12, height: 1, once: true }
   const block = { id: "b1", type: "notice", x: 0, y: 0, w: 12, h: 1 }
 
-  assert.match(render({ block_types: [ notice ], blocks: [ block ] }), /<li[^>]*data-block-type="notice"[^>]*>.*Added<\/button>/)
+  assert.match(render({ editing: true, block_types: [ notice ], blocks: [ block ] }), /<li[^>]*data-block-type="notice"[^>]*>.*Added<\/button>/)
 })
 
 test("refuses another add of a type that may be used once and is on the layout", () => {
   const notice = { key: "notice", name: "Notice", width: 12, height: 1, once: true }
   const block = { id: "b1", type: "notice", x: 0, y: 0, w: 12, h: 1 }
 
-  assert.match(render({ block_types: [ notice ], blocks: [ block ] }), /<button[^>]*disabled[^>]*>Added<\/button>/)
+  assert.match(render({ editing: true, block_types: [ notice ], blocks: [ block ] }), /<button[^>]*disabled[^>]*>Added<\/button>/)
 })
 
 test("shows the sentence describing a block type with it in the list", () => {
   const notice = { key: "notice", name: "Notice", width: 12, height: 1, description: "A short message across the top." }
 
-  assert.match(render({ block_types: [ notice ] }), /<li[^>]*data-block-type="notice"[^>]*>.*A short message across the top\./)
+  assert.match(render({ editing: true, block_types: [ notice ] }), /<li[^>]*data-block-type="notice"[^>]*>.*A short message across the top\./)
 })
 
 test("shows block types under the name of the group they were put in", () => {
   const notice = { key: "notice", name: "Notice", width: 12, height: 1, group: "Layout" }
 
-  assert.match(render({ block_types: [ notice ] }), /Layout<\/h3>.*data-block-type="notice"/)
+  assert.match(render({ editing: true, block_types: [ notice ] }), /Layout<\/h3>.*data-block-type="notice"/)
 })
 
 test("gives each block a handle to drag it by", () => {
-  const markup = render({ block_types: [ HEADING ], blocks: [ BLOCK ] })
+  const markup = render({ editing: true, block_types: [ HEADING ], blocks: [ BLOCK ] })
 
   assert.match(markup, /<div[^>]*data-block="b1"[^>]*>.*data-block-handle/)
 })

@@ -54,7 +54,7 @@ const BlockContent = ({ id, name, html }) => {
 
 const usedUp = (blockType, blocks) => blockType.once && blocks.some((block) => block.type === blockType.key)
 
-export default function BlockGrid({ base, token, emptyMessage, ...initial }) {
+export default function BlockGrid({ base, token, emptyMessage, editing: startsEditing = false, ...initial }) {
   const { layout: current, error, send } = useLayout(base, token, initial)
   const { block_types = [], blocks = [], grid = {}, contents = {} } = current
   const limits = current.limits ?? block_types
@@ -62,6 +62,7 @@ export default function BlockGrid({ base, token, emptyMessage, ...initial }) {
   const { width, containerRef, mounted } = useContainerWidth({ measureBeforeMount: true })
   const layout = gridItems(blocks, limits)
   const dragged = useRef(null)
+  const [ editing, setEditing ] = useState(startsEditing)
   const [ search, setSearch ] = useState("")
   const [ selected, setSelected ] = useState(null)
   const filled = blocks.find((block) => block.id === selected)
@@ -84,7 +85,7 @@ export default function BlockGrid({ base, token, emptyMessage, ...initial }) {
 
   return (
     <div className="lg:grid lg:grid-cols-[16rem_minmax(0,1fr)] lg:gap-6">
-      <Section title="Blocks" spacing="sm">
+      {editing && <Section title="Blocks" spacing="sm">
         <Label htmlFor="ks-blocks-search">Search blocks</Label>
         <Input id="ks-blocks-search" type="search" value={search} onChange={(event) => setSearch(event.target.value)} className="mb-2" />
         {block_types.length === 0
@@ -105,7 +106,7 @@ export default function BlockGrid({ base, token, emptyMessage, ...initial }) {
                 </ul>
               </React.Fragment>
             ))}
-      </Section>
+      </Section>}
       <Panel data-block-grid-panel>
         {error && <Alert type="error" message={error} className="mb-3" />}
         {blocks.length === 0 && <p>{emptyMessage}</p>}
