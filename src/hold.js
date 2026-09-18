@@ -12,6 +12,8 @@ export const holdToStart = (start, length = HOLD_LENGTH) => {
     onPointerDown: () => {
       waiting = setTimeout(start, length)
     },
-    onPointerUp: giveUp
+    onPointerUp: giveUp,
+    onPointerLeave: giveUp,
+    onPointerCancel: giveUp
   }
 }

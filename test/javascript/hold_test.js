@@ -28,3 +28,16 @@ test("a press let go before the length starts nothing", () => {
   assert.equal(started, 0)
   mock.timers.reset()
 })
+
+test("a press that moves off what it started on starts nothing", () => {
+  mock.timers.enable({ apis: [ "setTimeout" ] })
+  let started = 0
+  const handlers = holdToStart(() => started++, 500)
+
+  press(handlers)
+  handlers.onPointerLeave({ pointerId: 1 })
+  mock.timers.tick(500)
+
+  assert.equal(started, 0)
+  mock.timers.reset()
+})
