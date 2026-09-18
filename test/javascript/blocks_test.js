@@ -84,3 +84,15 @@ test("a block of an ordinary type may be moved, resized and removed", () => {
 
   assert.deepEqual(allowed, { moved: true, resized: true, removed: true })
 })
+
+test("a block of a fixed type may not be moved or removed", () => {
+  const allowed = allowances({ id: "b1", type: "banner" }, [ { key: "banner", name: "Banner", fixed: true } ])
+
+  assert.deepEqual(allowed, { moved: false, resized: true, removed: false })
+})
+
+test("a block of a type that cannot be resized may not be resized", () => {
+  const allowed = allowances({ id: "b1", type: "stat" }, [ { key: "stat", name: "Stat", resizable: false } ])
+
+  assert.deepEqual(allowed, { moved: true, resized: false, removed: true })
+})
