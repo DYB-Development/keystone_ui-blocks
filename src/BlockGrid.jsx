@@ -8,6 +8,7 @@ import Panel from "keystone_ui-react/src/Panel.jsx"
 import Section from "keystone_ui-react/src/Section.jsx"
 import useLayout from "./useLayout"
 import { addBlock, dropBlock, fillBlock, gridItems, placeBlocks, removeBlock } from "./blocks"
+import { holdToStart } from "./hold"
 
 const SHAPE = { columns: 12, row_height: 60, gap: 10 }
 const RESIZE_HANDLES = [ "e", "s", "se" ]
@@ -54,7 +55,7 @@ const BlockContent = ({ id, name, html }) => {
 
 const usedUp = (blockType, blocks) => blockType.once && blocks.some((block) => block.type === blockType.key)
 
-export default function BlockGrid({ base, token, emptyMessage, ...initial }) {
+export default function BlockGrid({ base, token, emptyMessage, editing: startsEditing = false, ...initial }) {
   const { layout: current, error, send } = useLayout(base, token, initial)
   const { block_types = [], blocks = [], grid = {}, contents = {} } = current
   const limits = current.limits ?? block_types
@@ -62,6 +63,7 @@ export default function BlockGrid({ base, token, emptyMessage, ...initial }) {
   const { width, containerRef, mounted } = useContainerWidth({ measureBeforeMount: true })
   const layout = gridItems(blocks, limits)
   const dragged = useRef(null)
+  const [ editing, setEditing ] = useState(startsEditing)
   const [ search, setSearch ] = useState("")
   const [ selected, setSelected ] = useState(null)
   const filled = blocks.find((block) => block.id === selected)
@@ -77,6 +79,8 @@ export default function BlockGrid({ base, token, emptyMessage, ...initial }) {
     onDragOver: () => dragged.current ? { w: dragged.current.width, h: dragged.current.height } : false
   }
 
+  const held = editing ? {} : { ...holdToStart(() => setEditing(true)), "data-hold-to-edit": true }
+
   const dropped = (_layout, item) => {
     if (dragged.current) dropBlock(send, dragged.current.key, item)
     dragged.current = null
@@ -84,7 +88,7 @@ export default function BlockGrid({ base, token, emptyMessage, ...initial }) {
 
   return (
     <div className="lg:grid lg:grid-cols-[16rem_minmax(0,1fr)] lg:gap-6">
-      <Section title="Blocks" spacing="sm">
+      {editing && <Section title="Blocks" spacing="sm">
         <Label htmlFor="ks-blocks-search">Search blocks</Label>
         <Input id="ks-blocks-search" type="search" value={search} onChange={(event) => setSearch(event.target.value)} className="mb-2" />
         {block_types.length === 0
@@ -105,9 +109,12 @@ export default function BlockGrid({ base, token, emptyMessage, ...initial }) {
                 </ul>
               </React.Fragment>
             ))}
-      </Section>
+      </Section>}
       <Panel data-block-grid-panel>
         {error && <Alert type="error" message={error} className="mb-3" />}
+        {editing
+          ? <Button variant="secondary" size="sm" type="button" data-stop-editing onClick={() => setEditing(false)}>Done</Button>
+          : <Button variant="secondary" size="sm" type="button" data-start-editing onClick={() => setEditing(true)}>Edit</Button>}
         {blocks.length === 0 && <p>{emptyMessage}</p>}
         {fields.length > 0 && (
           <div data-block-fields className="mb-3">
@@ -120,12 +127,11 @@ export default function BlockGrid({ base, token, emptyMessage, ...initial }) {
           </div>
         )}
         <div ref={containerRef} data-block-grid style={{ overflow: "hidden", visibility: mounted ? "visible" : "hidden" }}>
-          <GridLayout width={width} layout={layout} gridConfig={{ cols: columns, rowHeight, margin: [ gap, gap ] }} resizeConfig={{ enabled: true, handles: RESIZE_HANDLES }} dragConfig={{ handle: "[data-block-handle]", cancel: "[data-remove-block]" }} dropConfig={dropConfig} onDrop={dropped} onDragStop={(placed) => placeBlocks(send, placed)} onResizeStop={(placed) => placeBlocks(send, placed)}>
+          <GridLayout width={width} layout={layout} gridConfig={{ cols: columns, rowHeight, margin: [ gap, gap ] }} resizeConfig={{ enabled: editing, handles: RESIZE_HANDLES }} dragConfig={{ enabled: editing, cancel: "[data-remove-block]" }} dropConfig={dropConfig} onDrop={dropped} onDragStop={(placed) => placeBlocks(send, placed)} onResizeStop={(placed) => placeBlocks(send, placed)}>
             {blocks.map((block) => (
-              <div key={block.id} data-block={block.id} onClick={() => setSelected(block.id)} className="ks-panel p-3 flex items-start justify-between gap-2">
-                {!typeOf(limits, block.type)?.fixed && <span data-block-handle className="ks-block-handle" aria-hidden="true">⠿</span>}
+              <div key={block.id} data-block={block.id} {...held} onClick={() => setSelected(block.id)} className="ks-panel p-3 flex items-start justify-between gap-2">
                 <BlockContent id={block.id} name={named(limits, block.type)} html={contents[block.id]} />
-                {!typeOf(limits, block.type)?.fixed && <Button variant="secondary" size="sm" type="button" data-remove-block onClick={() => removeBlock(send, block.id)}>Remove</Button>}
+                {editing && !typeOf(limits, block.type)?.fixed && <Button variant="secondary" size="sm" type="button" data-remove-block onClick={() => removeBlock(send, block.id)}>Remove</Button>}
               </div>
             ))}
           </GridLayout>
