@@ -122,7 +122,7 @@ export default function BlockGrid({ base, token, emptyMessage, editing: startsEd
           </div>
         )}
         <div ref={containerRef} data-block-grid style={{ overflow: "hidden", visibility: mounted ? "visible" : "hidden" }}>
-          <GridLayout width={width} layout={layout} gridConfig={{ cols: columns, rowHeight, margin: [ gap, gap ] }} resizeConfig={{ enabled: true, handles: RESIZE_HANDLES }} dragConfig={{ handle: "[data-block-handle]", cancel: "[data-remove-block]" }} dropConfig={dropConfig} onDrop={dropped} onDragStop={(placed) => placeBlocks(send, placed)} onResizeStop={(placed) => placeBlocks(send, placed)}>
+          <GridLayout width={width} layout={layout} gridConfig={{ cols: columns, rowHeight, margin: [ gap, gap ] }} resizeConfig={{ enabled: editing, handles: RESIZE_HANDLES }} dragConfig={{ handle: "[data-block-handle]", cancel: "[data-remove-block]" }} dropConfig={dropConfig} onDrop={dropped} onDragStop={(placed) => placeBlocks(send, placed)} onResizeStop={(placed) => placeBlocks(send, placed)}>
             {blocks.map((block) => (
               <div key={block.id} data-block={block.id} onClick={() => setSelected(block.id)} className="ks-panel p-3 flex items-start justify-between gap-2">
                 {editing && !typeOf(limits, block.type)?.fixed && <span data-block-handle className="ks-block-handle" aria-hidden="true">⠿</span>}
