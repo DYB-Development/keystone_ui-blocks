@@ -109,6 +109,7 @@ export default function BlockGrid({ base, token, emptyMessage, editing: startsEd
       </Section>}
       <Panel data-block-grid-panel>
         {error && <Alert type="error" message={error} className="mb-3" />}
+        {!editing && <Button variant="secondary" size="sm" type="button" data-start-editing onClick={() => setEditing(true)}>Edit</Button>}
         {blocks.length === 0 && <p>{emptyMessage}</p>}
         {fields.length > 0 && (
           <div data-block-fields className="mb-3">

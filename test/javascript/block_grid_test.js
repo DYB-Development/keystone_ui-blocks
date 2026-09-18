@@ -22,6 +22,10 @@ test("offers no way to remove a block while edit mode is off", () => {
   assert.doesNotMatch(render({ block_types: [ HEADING ], blocks: [ BLOCK ] }), /data-remove-block/)
 })
 
+test("offers one Edit control while edit mode is off", () => {
+  assert.match(render({ block_types: [ HEADING ], blocks: [ BLOCK ] }), /<button[^>]*data-start-editing[^>]*>Edit<\/button>/)
+})
+
 test("lists the block types in their own keystone section titled Blocks", () => {
   assert.match(render({ editing: true, block_types: [ HEADING ] }), /<h2 class="ks-section-title">Blocks<\/h2>.*<ul[^>]*><li[^>]*data-block-type="heading"/)
 })
