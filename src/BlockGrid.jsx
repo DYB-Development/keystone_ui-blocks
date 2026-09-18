@@ -65,6 +65,7 @@ export default function BlockGrid({ base, token, emptyMessage, editing: startsEd
   const layout = gridItems(blocks, limits)
   const dragged = useRef(null)
   const removeTargetRef = useRef(null)
+  const blocksDialogRef = useRef(null)
   const [ editing, setEditing ] = useState(startsEditing)
   const [ picking, setPicking ] = useState(false)
   const [ search, setSearch ] = useState("")
@@ -83,6 +84,13 @@ export default function BlockGrid({ base, token, emptyMessage, editing: startsEd
   }
 
   const held = editing ? {} : { ...holdToStart(() => setEditing(true)), "data-hold-to-edit": true }
+
+  useEffect(() => {
+    const dialog = blocksDialogRef.current
+    if (!dialog) return
+    if (picking && !dialog.open) dialog.showModal?.()
+    if (!picking && dialog.open) dialog.close?.()
+  }, [ picking ])
 
   const letGo = (placed, item, event) => {
     const stopped = dragStopped({
@@ -103,7 +111,7 @@ export default function BlockGrid({ base, token, emptyMessage, editing: startsEd
 
   return (
     <div>
-      {editing && <dialog data-blocks-dialog open={picking}>
+      {editing && <dialog ref={blocksDialogRef} data-blocks-dialog onClose={() => setPicking(false)}>
         <Section title="Blocks" spacing="sm">
         <Label htmlFor="ks-blocks-search">Search blocks</Label>
         <Input id="ks-blocks-search" type="search" value={search} onChange={(event) => setSearch(event.target.value)} className="mb-2" />
