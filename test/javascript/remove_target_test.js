@@ -21,3 +21,19 @@ test("a block let go on the target is the one removed", () => {
 
   assert.deepEqual(stopped, { remove: "b1" })
 })
+
+test("a block let go anywhere else keeps the layout it was dragged into", () => {
+  const layout = [ { i: "b1", x: 3, y: 0, w: 3, h: 4 } ]
+
+  const stopped = dragStopped({ layout, item: { i: "b1" }, pointer: { clientX: 320, clientY: 220 }, target: TARGET, fixed: false })
+
+  assert.deepEqual(stopped, { place: layout })
+})
+
+test("a block of a fixed type let go on the target is not removed", () => {
+  const layout = [ { i: "b1", x: 0, y: 0, w: 3, h: 4 } ]
+
+  const stopped = dragStopped({ layout, item: { i: "b1" }, pointer: { clientX: 120, clientY: 220 }, target: TARGET, fixed: true })
+
+  assert.deepEqual(stopped, { place: layout })
+})
