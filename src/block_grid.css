@@ -4,17 +4,19 @@
   }
 }
 
-[data-block-handle] {
-  cursor: grab;
-  touch-action: none;
-  line-height: 1;
-  user-select: none;
-}
-
-[data-block-handle]:active {
-  cursor: grabbing;
-}
-
 [data-block] {
   touch-action: pan-y;
+}
+
+.ks-remove-target {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  margin-inline: auto;
+  margin-bottom: 0.75rem;
+  border: 2px dashed currentColor;
+  border-radius: 9999px;
+  opacity: 0.6;
+  user-select: none;
 }
