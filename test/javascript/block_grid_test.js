@@ -38,6 +38,10 @@ test("allows a block to be resized while edit mode is on", () => {
   assert.doesNotMatch(render({ editing: true, block_types: [ HEADING ], blocks: [ BLOCK ] }), /react-resizable-hide/)
 })
 
+test("draws no drag handle on a block being edited, because the whole block drags", () => {
+  assert.doesNotMatch(render({ editing: true, block_types: [ HEADING ], blocks: [ BLOCK ] }), /data-block-handle/)
+})
+
 test("lists the block types in their own keystone section titled Blocks", () => {
   assert.match(render({ editing: true, block_types: [ HEADING ] }), /<h2 class="ks-section-title">Blocks<\/h2>.*<ul[^>]*><li[^>]*data-block-type="heading"/)
 })
@@ -145,12 +149,6 @@ test("shows block types under the name of the group they were put in", () => {
   const notice = { key: "notice", name: "Notice", width: 12, height: 1, group: "Layout" }
 
   assert.match(render({ editing: true, block_types: [ notice ] }), /Layout<\/h3>.*data-block-type="notice"/)
-})
-
-test("gives each block a handle to drag it by", () => {
-  const markup = render({ editing: true, block_types: [ HEADING ], blocks: [ BLOCK ] })
-
-  assert.match(markup, /<div[^>]*data-block="b1"[^>]*>.*data-block-handle/)
 })
 
 test("shows no handle on a block of a fixed type, which nobody can move", () => {
