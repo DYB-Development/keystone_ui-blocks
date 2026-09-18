@@ -102,8 +102,9 @@ export default function BlockGrid({ base, token, emptyMessage, editing: startsEd
   }
 
   return (
-    <div className="lg:grid lg:grid-cols-[16rem_minmax(0,1fr)] lg:gap-6">
-      {editing && <Section title="Blocks" spacing="sm">
+    <div>
+      {editing && <dialog data-blocks-dialog open={picking}>
+        <Section title="Blocks" spacing="sm">
         <Label htmlFor="ks-blocks-search">Search blocks</Label>
         <Input id="ks-blocks-search" type="search" value={search} onChange={(event) => setSearch(event.target.value)} className="mb-2" />
         {block_types.length === 0
@@ -124,7 +125,9 @@ export default function BlockGrid({ base, token, emptyMessage, editing: startsEd
                 </ul>
               </React.Fragment>
             ))}
-      </Section>}
+        </Section>
+        <Button variant="secondary" size="sm" type="button" data-close-blocks onClick={() => setPicking(false)}>Close</Button>
+      </dialog>}
       <Panel data-block-grid-panel>
         {error && <Alert type="error" message={error} className="mb-3" />}
         {editing

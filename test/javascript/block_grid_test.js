@@ -78,6 +78,10 @@ test("offers a control that opens the block list while edit mode is on", () => {
   assert.match(render({ editing: true, block_types: [ HEADING ], blocks: [ BLOCK ] }), /<button[^>]*data-open-blocks[^>]*>Add a block<\/button>/)
 })
 
+test("holds the block list in a dialog rather than beside the grid", () => {
+  assert.match(render({ editing: true, block_types: [ HEADING ], blocks: [ BLOCK ] }), /<dialog[^>]*data-blocks-dialog/)
+})
+
 test("lists the block types in their own keystone section titled Blocks", () => {
   assert.match(render({ editing: true, block_types: [ HEADING ] }), /<h2 class="ks-section-title">Blocks<\/h2>.*<ul[^>]*><li[^>]*data-block-type="heading"/)
 })
