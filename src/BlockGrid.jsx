@@ -63,6 +63,7 @@ export default function BlockGrid({ base, token, emptyMessage, editing: startsEd
   const { width, containerRef, mounted } = useContainerWidth({ measureBeforeMount: true })
   const layout = gridItems(blocks, limits)
   const dragged = useRef(null)
+  const removeTargetRef = useRef(null)
   const [ editing, setEditing ] = useState(startsEditing)
   const [ search, setSearch ] = useState("")
   const [ selected, setSelected ] = useState(null)
@@ -126,6 +127,7 @@ export default function BlockGrid({ base, token, emptyMessage, editing: startsEd
             ))}
           </div>
         )}
+        {editing && <div ref={removeTargetRef} data-remove-target className="ks-remove-target" aria-label="Drop a block here to remove it">✕</div>}
         <div ref={containerRef} data-block-grid style={{ overflow: "hidden", visibility: mounted ? "visible" : "hidden" }}>
           <GridLayout width={width} layout={layout} gridConfig={{ cols: columns, rowHeight, margin: [ gap, gap ] }} resizeConfig={{ enabled: editing, handles: RESIZE_HANDLES }} dragConfig={{ enabled: editing, cancel: "[data-remove-block]" }} dropConfig={dropConfig} onDrop={dropped} onDragStop={(placed) => placeBlocks(send, placed)} onResizeStop={(placed) => placeBlocks(send, placed)}>
             {blocks.map((block) => (
