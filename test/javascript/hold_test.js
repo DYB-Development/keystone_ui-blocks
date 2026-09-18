@@ -15,3 +15,16 @@ test("a press held past the length starts what it was given", () => {
   assert.equal(started, 1)
   mock.timers.reset()
 })
+
+test("a press let go before the length starts nothing", () => {
+  mock.timers.enable({ apis: [ "setTimeout" ] })
+  let started = 0
+  const handlers = holdToStart(() => started++, 500)
+
+  press(handlers)
+  handlers.onPointerUp({ pointerId: 1 })
+  mock.timers.tick(500)
+
+  assert.equal(started, 0)
+  mock.timers.reset()
+})
