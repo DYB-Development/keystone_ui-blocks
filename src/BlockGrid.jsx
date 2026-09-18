@@ -124,7 +124,7 @@ export default function BlockGrid({ base, token, emptyMessage, editing: startsEd
           <GridLayout width={width} layout={layout} gridConfig={{ cols: columns, rowHeight, margin: [ gap, gap ] }} resizeConfig={{ enabled: true, handles: RESIZE_HANDLES }} dragConfig={{ handle: "[data-block-handle]", cancel: "[data-remove-block]" }} dropConfig={dropConfig} onDrop={dropped} onDragStop={(placed) => placeBlocks(send, placed)} onResizeStop={(placed) => placeBlocks(send, placed)}>
             {blocks.map((block) => (
               <div key={block.id} data-block={block.id} onClick={() => setSelected(block.id)} className="ks-panel p-3 flex items-start justify-between gap-2">
-                {!typeOf(limits, block.type)?.fixed && <span data-block-handle className="ks-block-handle" aria-hidden="true">⠿</span>}
+                {editing && !typeOf(limits, block.type)?.fixed && <span data-block-handle className="ks-block-handle" aria-hidden="true">⠿</span>}
                 <BlockContent id={block.id} name={named(limits, block.type)} html={contents[block.id]} />
                 {!typeOf(limits, block.type)?.fixed && <Button variant="secondary" size="sm" type="button" data-remove-block onClick={() => removeBlock(send, block.id)}>Remove</Button>}
               </div>

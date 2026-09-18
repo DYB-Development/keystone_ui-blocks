@@ -14,6 +14,10 @@ test("shows no block list while edit mode is off", () => {
   assert.doesNotMatch(render({ block_types: [ HEADING ], blocks: [ BLOCK ] }), /Blocks<\/h2>/)
 })
 
+test("shows no drag handle on a block while edit mode is off", () => {
+  assert.doesNotMatch(render({ block_types: [ HEADING ], blocks: [ BLOCK ] }), /data-block-handle/)
+})
+
 test("lists the block types in their own keystone section titled Blocks", () => {
   assert.match(render({ editing: true, block_types: [ HEADING ] }), /<h2 class="ks-section-title">Blocks<\/h2>.*<ul[^>]*><li[^>]*data-block-type="heading"/)
 })
