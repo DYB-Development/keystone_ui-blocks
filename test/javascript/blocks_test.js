@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { addBlock, chooseBlock, dropBlock, placeBlocks, removeBlock, gridItems } from "../../src/blocks.js"
+import { addBlock, allowances, chooseBlock, dropBlock, placeBlocks, removeBlock, gridItems } from "../../src/blocks.js"
 
 test("adding a block type sends its key to the page's blocks", () => {
   const sent = []
@@ -77,4 +77,22 @@ test("a block of a fixed type cannot be dragged", () => {
   const types = [ { key: "masthead", name: "Masthead", width: 12, height: 1, fixed: true } ]
 
   assert.equal(gridItems(blocks, types)[0].isDraggable, false)
+})
+
+test("a block of an ordinary type may be moved, resized and removed", () => {
+  const allowed = allowances({ id: "b1", type: "heading" }, [ { key: "heading", name: "Heading" } ])
+
+  assert.deepEqual(allowed, { moved: true, resized: true, removed: true })
+})
+
+test("a block of a fixed type may not be moved or removed", () => {
+  const allowed = allowances({ id: "b1", type: "banner" }, [ { key: "banner", name: "Banner", fixed: true } ])
+
+  assert.deepEqual(allowed, { moved: false, resized: true, removed: false })
+})
+
+test("a block of a type that cannot be resized may not be resized", () => {
+  const allowed = allowances({ id: "b1", type: "stat" }, [ { key: "stat", name: "Stat", resizable: false } ])
+
+  assert.deepEqual(allowed, { moved: true, resized: false, removed: true })
 })
