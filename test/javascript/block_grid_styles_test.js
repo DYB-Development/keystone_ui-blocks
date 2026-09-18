@@ -7,3 +7,7 @@ const styles = readFileSync(new URL("../../src/block_grid.css", import.meta.url)
 test("holds no rule for the drag handle the grid no longer draws", () => {
   assert.doesNotMatch(styles, /data-block-handle/)
 })
+
+test("holds a rule for the target a block is dropped on to remove it", () => {
+  assert.match(styles, /\.ks-remove-target\s*{/)
+})
