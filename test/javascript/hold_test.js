@@ -1,6 +1,6 @@
 import { test, mock } from "node:test"
 import assert from "node:assert/strict"
-import { holdToStart } from "../../src/hold.js"
+import { holdToStart, swallowPress } from "../../src/hold.js"
 
 const press = (handlers) => handlers.onPointerDown({ pointerId: 1 })
 
@@ -40,4 +40,40 @@ test("a press that moves off what it started on starts nothing", () => {
 
   assert.equal(started, 0)
   mock.timers.reset()
+})
+
+test("a press that turned into a hold does not reach what it was held on", () => {
+  mock.timers.enable({ apis: [ "setTimeout" ] })
+  const handlers = holdToStart(() => {}, 500)
+  let stopped = 0
+  let prevented = 0
+
+  press(handlers)
+  mock.timers.tick(500)
+  handlers.onClickCapture({ stopPropagation: () => stopped++, preventDefault: () => prevented++ })
+
+  assert.deepEqual([ stopped, prevented ], [ 1, 1 ])
+  mock.timers.reset()
+})
+
+test("a short press reaches what it was pressed on", () => {
+  mock.timers.enable({ apis: [ "setTimeout" ] })
+  const handlers = holdToStart(() => {}, 500)
+  let stopped = 0
+
+  press(handlers)
+  handlers.onPointerUp({ pointerId: 1 })
+  handlers.onClickCapture({ stopPropagation: () => stopped++, preventDefault: () => {} })
+
+  assert.equal(stopped, 0)
+  mock.timers.reset()
+})
+
+test("a press on a block being arranged reaches nothing inside it", () => {
+  let stopped = 0
+  let prevented = 0
+
+  swallowPress().onClickCapture({ stopPropagation: () => stopped++, preventDefault: () => prevented++ })
+
+  assert.deepEqual([ stopped, prevented ], [ 1, 1 ])
 })

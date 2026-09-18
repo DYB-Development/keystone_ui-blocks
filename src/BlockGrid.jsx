@@ -8,7 +8,7 @@ import Panel from "keystone_ui-react/src/Panel.jsx"
 import Section from "keystone_ui-react/src/Section.jsx"
 import useLayout from "./useLayout"
 import { allowances, chooseBlock, dropBlock, fillBlock, gridItems, placeBlocks, removeBlock } from "./blocks"
-import { holdToStart } from "./hold"
+import { holdToStart, swallowPress } from "./hold"
 import { dragStopped } from "./remove_target"
 
 const SHAPE = { columns: 12, row_height: 60, gap: 10 }
@@ -83,7 +83,7 @@ export default function BlockGrid({ base, token, emptyMessage, editing: startsEd
     onDragOver: () => dragged.current ? { w: dragged.current.width, h: dragged.current.height } : false
   }
 
-  const held = editing ? {} : { ...holdToStart(() => setEditing(true)), "data-hold-to-edit": true }
+  const held = editing ? swallowPress() : { ...holdToStart(() => setEditing(true)), "data-hold-to-edit": true }
 
   useEffect(() => {
     const dialog = blocksDialogRef.current
