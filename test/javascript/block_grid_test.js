@@ -42,6 +42,10 @@ test("draws no drag handle on a block being edited, because the whole block drag
   assert.doesNotMatch(render({ editing: true, block_types: [ HEADING ], blocks: [ BLOCK ] }), /data-block-handle/)
 })
 
+test("refuses to drag a block while edit mode is off", () => {
+  assert.doesNotMatch(render({ block_types: [ HEADING ], blocks: [ BLOCK ] }), /data-block="b1"[^>]*class="[^"]*react-draggable /)
+})
+
 test("lists the block types in their own keystone section titled Blocks", () => {
   assert.match(render({ editing: true, block_types: [ HEADING ] }), /<h2 class="ks-section-title">Blocks<\/h2>.*<ul[^>]*><li[^>]*data-block-type="heading"/)
 })
