@@ -66,6 +66,7 @@ export default function BlockGrid({ base, token, emptyMessage, editing: startsEd
   const dragged = useRef(null)
   const removeTargetRef = useRef(null)
   const [ editing, setEditing ] = useState(startsEditing)
+  const [ picking, setPicking ] = useState(false)
   const [ search, setSearch ] = useState("")
   const [ selected, setSelected ] = useState(null)
   const filled = blocks.find((block) => block.id === selected)
@@ -127,7 +128,10 @@ export default function BlockGrid({ base, token, emptyMessage, editing: startsEd
       <Panel data-block-grid-panel>
         {error && <Alert type="error" message={error} className="mb-3" />}
         {editing
-          ? <Button variant="secondary" size="sm" type="button" data-stop-editing onClick={() => setEditing(false)}>Done</Button>
+          ? <>
+              <Button variant="secondary" size="sm" type="button" data-open-blocks onClick={() => setPicking(true)}>Add a block</Button>
+              <Button variant="secondary" size="sm" type="button" data-stop-editing onClick={() => setEditing(false)}>Done</Button>
+            </>
           : <Button variant="secondary" size="sm" type="button" data-start-editing onClick={() => setEditing(true)}>Edit</Button>}
         {blocks.length === 0 && <p>{emptyMessage}</p>}
         {fields.length > 0 && (

@@ -74,6 +74,10 @@ test("puts no Remove button on a block, because the target removes it", () => {
   assert.doesNotMatch(render({ editing: true, block_types: [ HEADING ], blocks: [ BLOCK ] }), /data-remove-block/)
 })
 
+test("offers a control that opens the block list while edit mode is on", () => {
+  assert.match(render({ editing: true, block_types: [ HEADING ], blocks: [ BLOCK ] }), /<button[^>]*data-open-blocks[^>]*>Add a block<\/button>/)
+})
+
 test("lists the block types in their own keystone section titled Blocks", () => {
   assert.match(render({ editing: true, block_types: [ HEADING ] }), /<h2 class="ks-section-title">Blocks<\/h2>.*<ul[^>]*><li[^>]*data-block-type="heading"/)
 })
