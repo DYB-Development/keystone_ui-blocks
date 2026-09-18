@@ -55,3 +55,16 @@ test("a press that turned into a hold does not reach what it was held on", () =>
   assert.deepEqual([ stopped, prevented ], [ 1, 1 ])
   mock.timers.reset()
 })
+
+test("a short press reaches what it was pressed on", () => {
+  mock.timers.enable({ apis: [ "setTimeout" ] })
+  const handlers = holdToStart(() => {}, 500)
+  let stopped = 0
+
+  press(handlers)
+  handlers.onPointerUp({ pointerId: 1 })
+  handlers.onClickCapture({ stopPropagation: () => stopped++, preventDefault: () => {} })
+
+  assert.equal(stopped, 0)
+  mock.timers.reset()
+})
