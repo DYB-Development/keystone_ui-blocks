@@ -7,7 +7,7 @@ import { Label } from "keystone_ui-react/src/FieldText.jsx"
 import Panel from "keystone_ui-react/src/Panel.jsx"
 import Section from "keystone_ui-react/src/Section.jsx"
 import useLayout from "./useLayout"
-import { addBlock, dropBlock, fillBlock, gridItems, placeBlocks, removeBlock } from "./blocks"
+import { chooseBlock, dropBlock, fillBlock, gridItems, placeBlocks, removeBlock } from "./blocks"
 import { holdToStart } from "./hold"
 import { dragStopped } from "./remove_target"
 
@@ -127,7 +127,7 @@ export default function BlockGrid({ base, token, emptyMessage, editing: startsEd
                         {blockType.name}
                         {blockType.description && <span className="ks-section-subtitle block">{blockType.description}</span>}
                       </span>
-                      <Button variant="secondary" size="sm" type="button" disabled={usedUp(blockType, blocks)} onClick={() => addBlock(send, blockType.key)}>{usedUp(blockType, blocks) ? "Added" : "Add"}</Button>
+                      <Button variant="secondary" size="sm" type="button" disabled={usedUp(blockType, blocks)} onClick={() => chooseBlock(send, () => setPicking(false), blockType.key)}>{usedUp(blockType, blocks) ? "Added" : "Add"}</Button>
                     </li>
                   ))}
                 </ul>

@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { addBlock, dropBlock, placeBlocks, removeBlock, gridItems } from "../../src/blocks.js"
+import { addBlock, chooseBlock, dropBlock, placeBlocks, removeBlock, gridItems } from "../../src/blocks.js"
 
 test("adding a block type sends its key to the page's blocks", () => {
   const sent = []
@@ -8,6 +8,15 @@ test("adding a block type sends its key to the page's blocks", () => {
   addBlock((...request) => sent.push(request), "heading")
 
   assert.deepEqual(sent, [ [ "/blocks", "POST", { type: "heading" } ] ])
+})
+
+test("choosing a block type adds it and closes the list it was chosen from", () => {
+  const sent = []
+  let closed = 0
+
+  chooseBlock((...request) => sent.push(request), () => closed++, "heading")
+
+  assert.deepEqual([ sent, closed ], [ [ [ "/blocks", "POST", { type: "heading" } ] ], 1 ])
 })
 
 test("dropping a block type sends its key and the grid place it was dropped on", () => {
