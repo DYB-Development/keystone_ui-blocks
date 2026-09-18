@@ -46,6 +46,14 @@ test("refuses to drag a block while edit mode is off", () => {
   assert.doesNotMatch(render({ block_types: [ HEADING ], blocks: [ BLOCK ] }), /data-block="b1"[^>]*class="[^"]*react-draggable /)
 })
 
+test("a block on a grid that is not being edited is held to start editing", () => {
+  assert.match(render({ block_types: [ HEADING ], blocks: [ BLOCK ] }), /data-block="b1"[^>]*data-hold-to-edit/)
+})
+
+test("a block on a grid already being edited is not held to start editing again", () => {
+  assert.doesNotMatch(render({ editing: true, block_types: [ HEADING ], blocks: [ BLOCK ] }), /data-hold-to-edit/)
+})
+
 test("lists the block types in their own keystone section titled Blocks", () => {
   assert.match(render({ editing: true, block_types: [ HEADING ] }), /<h2 class="ks-section-title">Blocks<\/h2>.*<ul[^>]*><li[^>]*data-block-type="heading"/)
 })
