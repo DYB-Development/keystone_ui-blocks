@@ -82,6 +82,12 @@ test("holds the block list in a dialog rather than beside the grid", () => {
   assert.match(render({ editing: true, block_types: [ HEADING ], blocks: [ BLOCK ] }), /<dialog[^>]*data-blocks-dialog/)
 })
 
+test("offers only a corner to resize a block by", () => {
+  const markup = render({ editing: true, block_types: [ HEADING ], blocks: [ BLOCK ] })
+
+  assert.deepEqual([ ...new Set(markup.match(/react-resizable-handle-[a-z]+/g) ?? []) ], [ "react-resizable-handle-se" ])
+})
+
 test("lists the block types in their own keystone section titled Blocks", () => {
   assert.match(render({ editing: true, block_types: [ HEADING ] }), /<h2 class="ks-section-title">Blocks<\/h2>.*<ul[^>]*><li[^>]*data-block-type="heading"/)
 })
@@ -130,12 +136,6 @@ test("keeps blocks inside the grid so the page never scrolls sideways", () => {
 
 test("keeps the grid hidden until it has measured its container", () => {
   assert.match(opening(render({}), "data-block-grid(?!-)"), /visibility:hidden/)
-})
-
-test("lets each block be resized from its right edge, bottom edge and corner", () => {
-  const markup = render({ editing: true, block_types: [ HEADING ], blocks: [ BLOCK ] })
-
-  assert.deepEqual([ ...markup.matchAll(/react-resizable-handle-(\w+)/g) ].map((found) => found[1]).sort(), [ "e", "s", "se" ])
 })
 
 test("marks a block whose type is no longer registered as an unknown type", () => {

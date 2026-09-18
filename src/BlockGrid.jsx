@@ -12,7 +12,7 @@ import { holdToStart } from "./hold"
 import { dragStopped } from "./remove_target"
 
 const SHAPE = { columns: 12, row_height: 60, gap: 10 }
-const RESIZE_HANDLES = [ "e", "s", "se" ]
+const RESIZE_HANDLES = [ "se" ]
 
 const typeOf = (block_types, key) => block_types.find((blockType) => blockType.key === key)
 
