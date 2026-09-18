@@ -142,11 +142,10 @@ export default function BlockGrid({ base, token, emptyMessage, editing: startsEd
         )}
         {editing && <div ref={removeTargetRef} data-remove-target className="ks-remove-target" aria-label="Drop a block here to remove it">✕</div>}
         <div ref={containerRef} data-block-grid style={{ overflow: "hidden", visibility: mounted ? "visible" : "hidden" }}>
-          <GridLayout width={width} layout={layout} gridConfig={{ cols: columns, rowHeight, margin: [ gap, gap ] }} resizeConfig={{ enabled: editing, handles: RESIZE_HANDLES }} dragConfig={{ enabled: editing, cancel: "[data-remove-block]" }} dropConfig={dropConfig} onDrop={dropped} onDragStop={(placed, _from, item, _placeholder, event) => letGo(placed, item, event)} onResizeStop={(placed) => placeBlocks(send, placed)}>
+          <GridLayout width={width} layout={layout} gridConfig={{ cols: columns, rowHeight, margin: [ gap, gap ] }} resizeConfig={{ enabled: editing, handles: RESIZE_HANDLES }} dragConfig={{ enabled: editing }} dropConfig={dropConfig} onDrop={dropped} onDragStop={(placed, _from, item, _placeholder, event) => letGo(placed, item, event)} onResizeStop={(placed) => placeBlocks(send, placed)}>
             {blocks.map((block) => (
               <div key={block.id} data-block={block.id} {...held} onClick={() => setSelected(block.id)}>
                 <BlockContent id={block.id} name={named(limits, block.type)} html={contents[block.id]} />
-                {editing && !typeOf(limits, block.type)?.fixed && <Button variant="secondary" size="sm" type="button" data-remove-block onClick={() => removeBlock(send, block.id)}>Remove</Button>}
               </div>
             ))}
           </GridLayout>
