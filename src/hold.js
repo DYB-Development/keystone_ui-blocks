@@ -28,3 +28,10 @@ export const holdToStart = (start, length = HOLD_LENGTH) => {
     }
   }
 }
+
+export const swallowPress = () => ({
+  onClickCapture: (event) => {
+    event.stopPropagation()
+    event.preventDefault()
+  }
+})
