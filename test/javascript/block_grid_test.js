@@ -54,6 +54,10 @@ test("a block on a grid already being edited is not held to start editing again"
   assert.doesNotMatch(render({ editing: true, block_types: [ HEADING ], blocks: [ BLOCK ] }), /data-hold-to-edit/)
 })
 
+test("draws no panel of its own around a block", () => {
+  assert.doesNotMatch(opening(render({ editing: true, block_types: [ HEADING ], blocks: [ BLOCK ] }), 'data-block="b1"'), /ks-panel/)
+})
+
 test("lists the block types in their own keystone section titled Blocks", () => {
   assert.match(render({ editing: true, block_types: [ HEADING ] }), /<h2 class="ks-section-title">Blocks<\/h2>.*<ul[^>]*><li[^>]*data-block-type="heading"/)
 })
@@ -94,10 +98,6 @@ test("sets the grid in a keystone panel", () => {
 
 test("draws each block on the grid by its type's name", () => {
   assert.match(render({ editing: true, block_types: [ HEADING ], blocks: [ BLOCK ] }), /<[^>]*data-block="b1"[^>]*>.*Heading/)
-})
-
-test("draws each block on the grid as a padded keystone panel", () => {
-  assert.match(opening(render({ editing: true, block_types: [ HEADING ], blocks: [ BLOCK ] }), 'data-block="b1"'), /class="[^"]*ks-panel p-3/)
 })
 
 test("keeps blocks inside the grid so the page never scrolls sideways", () => {
