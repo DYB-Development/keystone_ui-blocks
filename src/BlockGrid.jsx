@@ -48,7 +48,7 @@ const BlockContent = ({ id, name, html }) => {
   return (
     <>
       {adopted ? null : name}
-      <div ref={slot} className="grow" />
+      <div ref={slot} />
     </>
   )
 }

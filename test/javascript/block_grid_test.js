@@ -58,6 +58,10 @@ test("draws no panel of its own around a block", () => {
   assert.doesNotMatch(opening(render({ editing: true, block_types: [ HEADING ], blocks: [ BLOCK ] }), 'data-block="b1"'), /ks-panel/)
 })
 
+test("gives the host's markup a slot with no styling of its own", () => {
+  assert.doesNotMatch(render({ editing: true, block_types: [ HEADING ], blocks: [ BLOCK ] }), /class="grow"/)
+})
+
 test("lists the block types in their own keystone section titled Blocks", () => {
   assert.match(render({ editing: true, block_types: [ HEADING ] }), /<h2 class="ks-section-title">Blocks<\/h2>.*<ul[^>]*><li[^>]*data-block-type="heading"/)
 })
