@@ -34,6 +34,10 @@ test("offers one Done control while edit mode is on", () => {
   assert.match(render({ editing: true, block_types: [ HEADING ], blocks: [ BLOCK ] }), /<button[^>]*data-stop-editing[^>]*>Done<\/button>/)
 })
 
+test("allows a block to be resized while edit mode is on", () => {
+  assert.doesNotMatch(render({ editing: true, block_types: [ HEADING ], blocks: [ BLOCK ] }), /react-resizable-hide/)
+})
+
 test("lists the block types in their own keystone section titled Blocks", () => {
   assert.match(render({ editing: true, block_types: [ HEADING ] }), /<h2 class="ks-section-title">Blocks<\/h2>.*<ul[^>]*><li[^>]*data-block-type="heading"/)
 })
