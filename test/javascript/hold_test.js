@@ -41,3 +41,17 @@ test("a press that moves off what it started on starts nothing", () => {
   assert.equal(started, 0)
   mock.timers.reset()
 })
+
+test("a press that turned into a hold does not reach what it was held on", () => {
+  mock.timers.enable({ apis: [ "setTimeout" ] })
+  const handlers = holdToStart(() => {}, 500)
+  let stopped = 0
+  let prevented = 0
+
+  press(handlers)
+  mock.timers.tick(500)
+  handlers.onClickCapture({ stopPropagation: () => stopped++, preventDefault: () => prevented++ })
+
+  assert.deepEqual([ stopped, prevented ], [ 1, 1 ])
+  mock.timers.reset()
+})
