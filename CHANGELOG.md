@@ -2,6 +2,30 @@
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-09-18
+
+### Changed
+- A grid shows its blocks and nothing else until a person asks to change it. The list of blocks to add, the way to remove one, and resizing all wait behind edit mode, which starts off.
+- A block is the markup the host rendered for it. The grid draws no panel, no padding and no row around it, and the slot the markup is moved into carries no styling.
+- A block being edited drags from any point on it. Dragging is refused outright while edit mode is off.
+- The list of blocks to add opens as a modal from a control beside Done, keeps its search and its grouping, and closes once a type is chosen.
+- A block is removed by dragging it onto a target that appears while the grid is being edited. A block whose type is fixed keeps its place instead.
+- A block resizes from its corner alone, where it offered the right edge and the bottom edge as well.
+
+### Added
+- A grid takes a prop that decides whether edit mode starts on.
+- Holding a block for half a second starts edit mode. Letting go early, or moving off the block, starts nothing, and a press that became a hold reaches nothing under the finger.
+- A press on a block being arranged reaches nothing inside it, so a link in a card cannot be followed while cards are being moved.
+
+### Removed
+- The drag handle every block carried. The whole block drags instead.
+- The Remove button every block carried. The remove target replaces it.
+- The stylesheet rules for that handle.
+
+### Upgrading
+- A host that relied on the block list sitting beside the grid should expect it in a modal instead.
+- A host whose block markup assumed the grid's panel around it now draws its own, since the grid draws none.
+
 ## [0.3.0] - 2026-09-17
 
 ### Added
