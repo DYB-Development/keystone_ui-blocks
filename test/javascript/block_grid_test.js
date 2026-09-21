@@ -203,3 +203,9 @@ test("a grid narrower than the narrow width refuses dragging even while edit mod
 
   assert.doesNotMatch(render({ editing: true, grid, block_types: [ HEADING ], blocks: [ BLOCK ] }), /react-draggable /)
 })
+
+test("a grid narrower than the narrow width refuses resizing even while edit mode is on", () => {
+  const grid = { columns: 12, row_height: 60, gap: 10, narrow_columns: 4, narrow_below: 5000 }
+
+  assert.match(render({ editing: true, grid, block_types: [ HEADING ], blocks: [ BLOCK ] }), /react-resizable-hide/)
+})
