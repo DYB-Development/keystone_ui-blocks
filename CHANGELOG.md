@@ -2,6 +2,20 @@
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-09-21
+
+### Added
+- A host record's grid declares a second set of numbers for a narrow screen, and the width below which they apply. Each narrow number left out falls back to its wide counterpart, and a record that declares no width uses 640 pixels.
+- A grid draws at the narrow numbers when the width it measures is below that width, sizing each block from the narrow size its type declares and packing the blocks in the reading order of the wide layout.
+- A block whose type declares no narrow size takes the narrow grid's full width.
+
+### Changed
+- A grid narrower than that width cannot be dragged or resized, whether or not edit mode is on. Arranging from a narrow grid comes later.
+- The remove target stays on screen while a block is dragged, so a drag down a grid taller than the screen can still reach it.
+
+### Upgrading
+- A host that draws the grid inside its own narrow column should declare `narrow_below` rather than rely on the viewport, since the grid measures itself.
+
 ## [0.5.0] - 2026-09-21
 
 ### Changed
