@@ -20,3 +20,14 @@ export const chosenShape = (width, shape) => {
 
   return width < (declared.narrow_below ?? NARROW_BELOW) ? narrowed(declared) : widened(declared)
 }
+
+const narrowSize = (blockType, columns) => ({
+  w: blockType?.narrow_width ?? columns,
+  h: blockType?.narrow_height ?? blockType?.height ?? 1
+})
+
+export const narrowPlaces = (blocks, blockTypes, columns) =>
+  blocks.map((block) => ({
+    ...block,
+    ...narrowSize(blockTypes.find((blockType) => blockType.key === block.type), columns)
+  }))
