@@ -122,8 +122,8 @@ test("does not show its empty message once there is a block", () => {
   assert.doesNotMatch(render({ emptyMessage: "Nothing arranged yet.", block_types: [ HEADING ], blocks: [ BLOCK ] }), /Nothing arranged yet/)
 })
 
-test("sets the grid in a keystone panel", () => {
-  assert.match(opening(render({}), "data-block-grid-panel"), /class="[^"]*ks-panel/)
+test("draws no panel of its own around the grid, because a block is the card", () => {
+  assert.doesNotMatch(render({}), /ks-panel/)
 })
 
 test("draws each block on the grid by its type's name", () => {

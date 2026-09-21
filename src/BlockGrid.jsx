@@ -4,7 +4,6 @@ import Alert from "keystone_ui-react/src/Alert.jsx"
 import Button from "keystone_ui-react/src/Button.jsx"
 import Input from "keystone_ui-react/src/Input.jsx"
 import { Label } from "keystone_ui-react/src/FieldText.jsx"
-import Panel from "keystone_ui-react/src/Panel.jsx"
 import Section from "keystone_ui-react/src/Section.jsx"
 import useLayout from "./useLayout"
 import { allowances, chooseBlock, dropBlock, fillBlock, gridItems, placeBlocks, removeBlock } from "./blocks"
@@ -136,36 +135,34 @@ export default function BlockGrid({ base, token, emptyMessage, editing: startsEd
         </Section>
         <Button variant="secondary" size="sm" type="button" data-close-blocks onClick={() => setPicking(false)}>Close</Button>
       </dialog>}
-      <Panel data-block-grid-panel>
-        {error && <Alert type="error" message={error} className="mb-3" />}
-        {editing
-          ? <>
-              <Button variant="secondary" size="sm" type="button" data-open-blocks onClick={() => setPicking(true)}>Add a block</Button>
-              <Button variant="secondary" size="sm" type="button" data-stop-editing onClick={() => setEditing(false)}>Done</Button>
-            </>
-          : <Button variant="secondary" size="sm" type="button" data-start-editing onClick={() => setEditing(true)}>Edit</Button>}
-        {blocks.length === 0 && <p>{emptyMessage}</p>}
-        {fields.length > 0 && (
-          <div data-block-fields className="mb-3">
-            {fields.map((field) => (
-              <div key={field.key} className="mb-2">
-                <Label htmlFor={`ks-block-field-${field.key}`}>{field.label}</Label>
-                <Input key={`${selected}-${field.key}`} id={`ks-block-field-${field.key}`} type="text" defaultValue={filled.content?.[field.key] ?? ""} onBlur={(event) => fillBlock(send, selected, { ...filled.content, [field.key]: event.target.value })} />
-              </div>
-            ))}
-          </div>
-        )}
-        {editing && <div ref={removeTargetRef} data-remove-target className="ks-remove-target" aria-label="Drop a block here to remove it">✕</div>}
-        <div ref={containerRef} data-block-grid style={{ overflow: "hidden", visibility: mounted ? "visible" : "hidden" }}>
-          <GridLayout width={width} layout={layout} gridConfig={{ cols: columns, rowHeight, margin: [ gap, gap ] }} resizeConfig={{ enabled: editing, handles: RESIZE_HANDLES }} dragConfig={{ enabled: editing }} dropConfig={dropConfig} onDrop={dropped} onDragStop={(placed, _from, item, _placeholder, event) => letGo(placed, item, event)} onResizeStop={(placed) => placeBlocks(send, placed)}>
-            {blocks.map((block) => (
-              <div key={block.id} data-block={block.id} {...held} onClick={() => setSelected(block.id)}>
-                <BlockContent id={block.id} name={named(limits, block.type)} html={contents[block.id]} />
-              </div>
-            ))}
-          </GridLayout>
+      {error && <Alert type="error" message={error} className="mb-3" />}
+      {editing
+        ? <>
+            <Button variant="secondary" size="sm" type="button" data-open-blocks onClick={() => setPicking(true)}>Add a block</Button>
+            <Button variant="secondary" size="sm" type="button" data-stop-editing onClick={() => setEditing(false)}>Done</Button>
+          </>
+        : <Button variant="secondary" size="sm" type="button" data-start-editing onClick={() => setEditing(true)}>Edit</Button>}
+      {blocks.length === 0 && <p>{emptyMessage}</p>}
+      {fields.length > 0 && (
+        <div data-block-fields className="mb-3">
+          {fields.map((field) => (
+            <div key={field.key} className="mb-2">
+              <Label htmlFor={`ks-block-field-${field.key}`}>{field.label}</Label>
+              <Input key={`${selected}-${field.key}`} id={`ks-block-field-${field.key}`} type="text" defaultValue={filled.content?.[field.key] ?? ""} onBlur={(event) => fillBlock(send, selected, { ...filled.content, [field.key]: event.target.value })} />
+            </div>
+          ))}
         </div>
-      </Panel>
+      )}
+      {editing && <div ref={removeTargetRef} data-remove-target className="ks-remove-target" aria-label="Drop a block here to remove it">✕</div>}
+      <div ref={containerRef} data-block-grid style={{ overflow: "hidden", visibility: mounted ? "visible" : "hidden" }}>
+        <GridLayout width={width} layout={layout} gridConfig={{ cols: columns, rowHeight, margin: [ gap, gap ] }} resizeConfig={{ enabled: editing, handles: RESIZE_HANDLES }} dragConfig={{ enabled: editing }} dropConfig={dropConfig} onDrop={dropped} onDragStop={(placed, _from, item, _placeholder, event) => letGo(placed, item, event)} onResizeStop={(placed) => placeBlocks(send, placed)}>
+          {blocks.map((block) => (
+            <div key={block.id} data-block={block.id} {...held} onClick={() => setSelected(block.id)}>
+              <BlockContent id={block.id} name={named(limits, block.type)} html={contents[block.id]} />
+            </div>
+          ))}
+        </GridLayout>
+      </div>
     </div>
   )
 }
