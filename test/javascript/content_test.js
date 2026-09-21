@@ -9,3 +9,11 @@ test("a block whose content changed is drawn again", () => {
 
   assert.equal(content.innerHTML, "<p>New</p>")
 })
+
+test("a block already showing this content is left alone", () => {
+  const content = { innerHTML: "<p>Same</p>" }
+
+  redraw(content, "<p>Same</p>", "<p>Same</p>")
+
+  assert.equal(content.innerHTML, "<p>Same</p>")
+})
