@@ -8,6 +8,11 @@
   touch-action: pan-y;
 }
 
+[data-block]:hover,
+[data-block]:focus-within {
+  z-index: 2;
+}
+
 .ks-remove-target {
   position: fixed;
   bottom: 1rem;

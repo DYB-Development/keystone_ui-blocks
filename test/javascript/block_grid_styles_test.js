@@ -15,3 +15,7 @@ test("holds a rule for the target a block is dropped on to remove it", () => {
 test("pins the remove target to the screen, so a drag down a long grid still reaches it", () => {
   assert.match(styles, /\.ks-remove-target\s*\{[^}]*position:\s*fixed/)
 })
+
+test("lifts the block under the pointer above the blocks beside it, so what it opens is not covered", () => {
+  assert.match(styles, /\[data-block\]:hover[^{]*\{[^}]*z-index:\s*2/)
+})
