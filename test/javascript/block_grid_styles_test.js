@@ -11,3 +11,7 @@ test("holds no rule for the drag handle the grid no longer draws", () => {
 test("holds a rule for the target a block is dropped on to remove it", () => {
   assert.match(styles, /\.ks-remove-target\s*{/)
 })
+
+test("pins the remove target to the screen, so a drag down a long grid still reaches it", () => {
+  assert.match(styles, /\.ks-remove-target\s*\{[^}]*position:\s*fixed/)
+})
