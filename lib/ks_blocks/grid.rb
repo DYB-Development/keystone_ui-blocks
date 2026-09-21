@@ -9,6 +9,7 @@ module KsBlocks
     COLUMNS = 12
     ROW_HEIGHT = 60
     GAP = 10
+    NARROW_BELOW = 640
 
     module_function
 
