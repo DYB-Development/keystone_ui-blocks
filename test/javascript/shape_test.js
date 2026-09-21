@@ -29,3 +29,14 @@ test("a block whose type declares no narrow size fills the narrow grid's width",
 
   assert.equal(narrowPlaces([ block ], [ PLAIN ], 4)[0].w, 4)
 })
+
+test("blocks on a narrow grid are packed in the reading order of the wide layout", () => {
+  const first = { id: "b1", type: "card", x: 6, y: 0, w: 3, h: 4 }
+  const second = { id: "b2", type: "card", x: 0, y: 0, w: 3, h: 4 }
+  const third = { id: "b3", type: "card", x: 0, y: 4, w: 3, h: 4 }
+
+  assert.deepEqual(
+    narrowPlaces([ first, second, third ], [ CARD ], 12).map(({ id, x, y }) => [ id, x, y ]),
+    [ [ "b2", 0, 0 ], [ "b1", 6, 0 ], [ "b3", 0, 2 ] ]
+  )
+})
