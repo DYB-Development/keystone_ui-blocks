@@ -9,6 +9,7 @@ import useLayout from "./useLayout"
 import { allowances, chooseBlock, dropBlock, fillBlock, gridItems, placeBlocks, removeBlock } from "./blocks"
 import { chosenShape, narrowPlaces } from "./shape"
 import { holdToStart, swallowPress } from "./hold"
+import { redraw } from "./content"
 import { dragStopped } from "./remove_target"
 
 const RESIZE_HANDLES = [ "se" ]
@@ -37,11 +38,14 @@ const drawn = (id, html) => {
 
 const BlockContent = ({ id, name, html }) => {
   const slot = useRef(null)
+  const shown = useRef(null)
   const [ adopted, setAdopted ] = useState(false)
 
   useEffect(() => {
     const content = document.querySelector(`[data-block-content="${id}"]`) ?? (html ? drawn(id, html) : null)
     if (content && content.parentElement !== slot.current) slot.current.appendChild(content)
+    redraw(content, html, shown.current)
+    shown.current = html
     setAdopted(Boolean(content))
   }, [ id, html ])
 
