@@ -15,6 +15,12 @@ module KsBlocks
       block_layout :blocks, columns: 6, row_height: 40, gap: 4
     end
 
+    class TwoHalvesHost < ActiveRecord::Base
+      self.table_name = "hosts"
+      include KsBlocks::Layout
+      block_layout :blocks, columns: 12, row_height: 60, gap: 10, narrow_columns: 4
+    end
+
     class ManyKindsHost < ActiveRecord::Base
       self.table_name = "hosts"
       include KsBlocks::Layout
@@ -109,7 +115,13 @@ module KsBlocks
     test "a host record's layout data carries the shape of its grid" do
       host = NarrowHost.create!(name: "Narrow")
 
-      assert_equal({ columns: 6, row_height: 40, gap: 4 }, host.layout_data[:grid])
+      assert_equal({ columns: 6, row_height: 40, gap: 4, narrow_columns: 6 }, host.layout_data[:grid])
+    end
+
+    test "a host record's layout data carries the narrow column count its grid declares" do
+      host = TwoHalvesHost.create!(name: "Two halves")
+
+      assert_equal 4, host.layout_data[:grid][:narrow_columns]
     end
 
     test "a host record refuses a block resized below its type's smallest width" do
