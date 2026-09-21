@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+### Fixed
+- A panel a card opens, such as the note behind a stat card's information button, is drawn over the blocks beside it rather than under them. Each block is placed with a transform, which makes a stacking context the card could not escape, so the block under the pointer now rises above its neighbours.
+
 ## [0.6.0] - 2026-09-21
 
 ### Added
