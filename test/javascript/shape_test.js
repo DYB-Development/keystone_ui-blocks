@@ -40,3 +40,7 @@ test("blocks on a narrow grid are packed in the reading order of the wide layout
     [ [ "b2", 0, 0 ], [ "b1", 6, 0 ], [ "b3", 0, 2 ] ]
   )
 })
+
+test("a grid that has not been measured yet draws at the wide numbers", () => {
+  assert.deepEqual(chosenShape(0, SHAPE), { columns: 12, rowHeight: 60, gap: 10, narrow: false })
+})

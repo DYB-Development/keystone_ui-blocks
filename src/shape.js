@@ -15,10 +15,12 @@ const widened = (declared) => ({
   narrow: false
 })
 
+const measured = (width) => typeof width === "number" && width > 0
+
 export const chosenShape = (width, shape) => {
   const declared = { ...WIDE, ...shape }
 
-  return width < (declared.narrow_below ?? NARROW_BELOW) ? narrowed(declared) : widened(declared)
+  return measured(width) && width < (declared.narrow_below ?? NARROW_BELOW) ? narrowed(declared) : widened(declared)
 }
 
 const narrowSize = (blockType, columns) => ({
