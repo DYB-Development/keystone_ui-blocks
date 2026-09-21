@@ -1,6 +1,6 @@
 {
   "name": "keystone_ui-blocks",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "A drag-and-drop block grid for Rails engine gems, following keystone_ui's design",
   "type": "module",
   "files": [
