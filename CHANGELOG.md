@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-09-21
+
+### Changed
+- A grid draws no card around itself. Its controls, its error message, its block fields and its remove target sit in the grid's own element, so the only cards on a screen are the ones the host rendered as block contents.
+
+### Upgrading
+- A host that relied on the grid's card around the whole grid now draws its own around the mount.
+
 ## [0.4.0] - 2026-09-18
 
 ### Changed
