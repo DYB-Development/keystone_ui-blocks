@@ -17,3 +17,11 @@ test("a block already showing this content is left alone", () => {
 
   assert.equal(content.innerHTML, "<p>Same</p>")
 })
+
+test("a block the host drew and sent no content for is left alone", () => {
+  const content = { innerHTML: "<p>From the host</p>" }
+
+  redraw(content, undefined, null)
+
+  assert.equal(content.innerHTML, "<p>From the host</p>")
+})
