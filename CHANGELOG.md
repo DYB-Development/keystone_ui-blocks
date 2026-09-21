@@ -16,6 +16,11 @@
 ### Upgrading
 - A host that draws the grid inside its own narrow column should declare `narrow_below` rather than rely on the viewport, since the grid measures itself.
 
+## [0.5.1] - 2026-09-21
+
+### Fixed
+- A block whose content the host re-rendered is drawn again on the grid. It kept the markup it was first given, so a field filled in after a block was drawn changed nothing a person could see until the page was reloaded.
+
 ## [0.5.0] - 2026-09-21
 
 ### Changed
