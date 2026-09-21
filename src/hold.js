@@ -1,3 +1,5 @@
+import { useRef } from "react"
+
 export const HOLD_LENGTH = 500
 
 export const holdToStart = (start, length = HOLD_LENGTH) => {
@@ -35,3 +37,13 @@ export const swallowPress = () => ({
     event.preventDefault()
   }
 })
+
+export const useHold = (start, length = HOLD_LENGTH) => {
+  const started = useRef(start)
+  started.current = start
+
+  const holding = useRef(null)
+  holding.current ??= holdToStart(() => started.current(), length)
+
+  return holding.current
+}
