@@ -2,9 +2,14 @@
 
 ## [Unreleased]
 
+## [0.7.0] - 2026-09-21
+
 ### Fixed
 - Holding a block to start arranging works. The grid built a new hold on every redraw, and a block's own click redraws the grid, so the release that should have called the hold off reached a hold that no longer held the timer, and edit mode started from presses that were let go early.
 - A panel a card opens, such as the note behind a stat card's information button, is drawn over the blocks beside it rather than under them. Each block is placed with a transform, which makes a stacking context the card could not escape, so the block under the pointer now rises above its neighbours.
+
+### Added
+- A hook a host can hold a block with, which keeps one hold across the redraws of whatever draws it.
 
 ## [0.6.0] - 2026-09-21
 
