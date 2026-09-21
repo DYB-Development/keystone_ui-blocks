@@ -71,6 +71,19 @@ A record whose kind varies row by row gives something to work it out with:
 block_layout :blocks, kind: ->(record) { record.dashboard_type.to_sym }
 ```
 
+The grid's shape is the host's to declare, in columns, pixels of row height and
+pixels of gap. A second set of numbers applies below a width the host names, and
+each one that is left out falls back to its wide counterpart:
+
+```ruby
+block_layout :blocks, kind: :pages,
+  columns: 12, row_height: 60, gap: 10,
+  narrow_columns: 4, narrow_row_height: 80, narrow_gap: 6, narrow_below: 640
+```
+
+A record that declares no shape is drawn at twelve columns of sixty pixel rows
+with a ten pixel gap, and `narrow_below` defaults to 640.
+
 ## Putting the grid on a screen
 
 The grid is a React interface, installed as an npm package from this
