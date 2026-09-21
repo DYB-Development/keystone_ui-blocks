@@ -21,3 +21,11 @@ const BLOCK = { id: "b1", type: "card", x: 3, y: 0, w: 3, h: 4 }
 test("a block on a narrow grid takes the narrow size its type declares", () => {
   assert.deepEqual(narrowPlaces([ BLOCK ], [ CARD ], 12).map(({ w, h }) => [ w, h ]), [ [ 6, 2 ] ])
 })
+
+const PLAIN = { key: "plain", name: "Plain", width: 3, height: 4 }
+
+test("a block whose type declares no narrow size fills the narrow grid's width", () => {
+  const block = { id: "b2", type: "plain", x: 0, y: 0, w: 3, h: 4 }
+
+  assert.equal(narrowPlaces([ block ], [ PLAIN ], 4)[0].w, 4)
+})
