@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.5.1] - 2026-09-21
+
 ### Fixed
 - A block whose content the host re-rendered is drawn again on the grid. It kept the markup it was first given, so a field filled in after a block was drawn changed nothing a person could see until the page was reloaded.
 
