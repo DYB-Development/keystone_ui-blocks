@@ -19,3 +19,7 @@ test("pins the remove target to the screen, so a drag down a long grid still rea
 test("lifts the block under the pointer above the blocks beside it, so what it opens is not covered", () => {
   assert.match(styles, /\[data-block\]:hover[^{]*\{[^}]*z-index:\s*2/)
 })
+
+test("rounds the remove target with the look's pill radius", () => {
+  assert.match(styles, /\.ks-remove-target\s*\{[^}]*border-radius:\s*var\(--ks-radius-pill, 9999px\)/)
+})

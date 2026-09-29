@@ -25,7 +25,7 @@
   height: 3rem;
   background-color: Canvas;
   border: 2px dashed currentColor;
-  border-radius: 9999px;
+  border-radius: var(--ks-radius-pill, 9999px);
   opacity: 0.9;
   user-select: none;
 }
