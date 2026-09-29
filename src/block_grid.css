@@ -24,7 +24,7 @@
   width: 3rem;
   height: 3rem;
   background-color: Canvas;
-  border: 2px dashed currentColor;
+  border: calc(var(--ks-border-width, 1px) * 2) dashed currentColor;
   border-radius: var(--ks-radius-pill, 9999px);
   opacity: 0.9;
   user-select: none;

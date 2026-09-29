@@ -23,3 +23,7 @@ test("lifts the block under the pointer above the blocks beside it, so what it o
 test("rounds the remove target with the look's pill radius", () => {
   assert.match(styles, /\.ks-remove-target\s*\{[^}]*border-radius:\s*var\(--ks-radius-pill, 9999px\)/)
 })
+
+test("draws the remove target's border at twice the look's border width", () => {
+  assert.match(styles, /\.ks-remove-target\s*\{[^}]*border:\s*calc\(var\(--ks-border-width, 1px\) \* 2\) dashed currentColor/)
+})
