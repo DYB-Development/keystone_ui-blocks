@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.7.1] - 2026-09-29
+
 ### Changed
 - The target a block is dropped on to remove it takes its corner radius and border width from keystone_ui-styles' `--ks-radius-pill` and `--ks-border-width`, so it follows the chosen look, and keeps its current shape where those variables are not defined.
 
